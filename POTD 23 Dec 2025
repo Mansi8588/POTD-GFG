@@ -1,0 +1,55 @@
+class Solution {
+  public:
+    int BinarySearch(vector<int> &arr, int x){
+        int l = 0;
+        int r = arr.size()-1;
+        while(l<=r){
+            int m = l + (r-l)/2;
+            if(arr[m]<=x)l = m + 1;
+            else r = m - 1;
+        }
+        return l;
+    }
+    vector<int> cntInRange(vector<int> &arr, vector<vector<int>> &queries) {
+        int n = arr.size();
+        int q = queries.size();
+        
+        sort(arr.begin(), arr.end());
+        
+        vector<int> result;
+        for(int i = 0;i<q;i++){
+            int a = queries[i][0];
+            int b = queries[i][1];
+            
+            int idxb = BinarySearch(arr, b);
+            int idxa = BinarySearch(arr, a-1);
+            
+            result.push_back(idxb - idxa);
+        }
+        return result;
+
+    }
+};
+
+
+
+2nd approach
+class Solution {
+  public:
+  int get_cnt(int x,int y,vector<int>&arr){
+      auto ub=upper_bound(arr.begin(),arr.end(),y);
+      auto lb=lower_bound(arr.begin(),arr.end(),x);
+      return ub-lb;
+  }
+    vector<int> cntInRange(vector<int> &arr, vector<vector<int>> &queries) {
+        // code here
+        sort(arr.begin(),arr.end());
+        int qs=queries.size();
+        vector<int> ans(qs);
+        for(int i=0;i<qs;i++){
+            int x=queries[i][0],y=queries[i][1];
+            ans[i]=get_cnt(x,y,arr);
+        }
+        return ans;
+    }
+};

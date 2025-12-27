@@ -1,0 +1,37 @@
+class Solution {
+  public:
+     int count(vector<vector<int>> &mat,int m){
+         int n=mat.size();
+         int cnt=0;
+         int r=0;
+         int c=n-1;
+         while(r<n && c>=0){
+             if(mat[r][c]<=m){
+                 cnt+=c+1;
+                 r++;
+             }
+             else c--;
+         }
+         return cnt;
+     }
+    int kthSmallest(vector<vector<int>> &matrix, int k) {
+        // code here
+        int n=matrix.size();
+        int s=matrix[0][0];
+        int e=matrix[n-1][n-1];
+        int ans=0;
+        while(s<=e){
+            int m=s+(e-s)/2;
+            int cnt=count(matrix,m);
+            if(cnt<k){
+                s=m+1;
+            }
+            else{
+                ans=m;
+                e=m-1;
+            }
+        }
+        return ans;
+        
+    }
+};
